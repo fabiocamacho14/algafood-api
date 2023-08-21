@@ -132,4 +132,18 @@ public class RestauranteController {
 //            throw new HttpMessageNotReadableException(e.getMessage(), rootCause, servletServerHttpRequest);
 //        }
 //    }
+
+//    PUT /restaurantes/{id}/ativo
+//    DELETE /restaurantes/{id}/ativo
+    @PutMapping("{restauranteId}/ativo")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void ativar(@PathVariable Integer restauranteId) {
+        cadastroRestaurante.ativar(restauranteId);
+    }
+
+    @DeleteMapping("{restauranteId}/ativo")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void inativar(@PathVariable Integer restauranteId) {
+        cadastroRestaurante.inativar(restauranteId);
+    }
 }

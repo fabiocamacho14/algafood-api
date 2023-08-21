@@ -1,11 +1,6 @@
 package com.algaworks.algafood.domain.model;
 
-import com.algaworks.algafood.core.validation.Groups;
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
-import jakarta.validation.groups.ConvertGroup;
-import jakarta.validation.groups.Default;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -62,4 +57,14 @@ public class Restaurante {
 
     @OneToMany(mappedBy = "restaurante")
     private List<Produto> produtos = new ArrayList<>();
+
+    private Boolean ativo = Boolean.TRUE;
+
+    public void ativar() {
+        ativo = Boolean.TRUE;
+    }
+
+    public void inativar() {
+        ativo = Boolean.FALSE;
+    }
 }
