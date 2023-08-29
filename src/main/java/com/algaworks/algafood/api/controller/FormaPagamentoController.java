@@ -48,10 +48,10 @@ public class FormaPagamentoController {
     }
 
     @PutMapping("/{formaPagamentoId}")
-    public void atualizar(@PathVariable Integer formaPagamentoId, @Valid @RequestBody FormaPagamentoInput formaPagamentoInput) {
+    public FormaPagamentoModel atualizar(@PathVariable Integer formaPagamentoId, @Valid @RequestBody FormaPagamentoInput formaPagamentoInput) {
         FormaPagamento formaPagamento =  cadastroFormaPagamento.buscarOuFalhar(formaPagamentoId);
         formaPagamentoInputDisassembler.copyToDomainObject(formaPagamentoInput, formaPagamento);
-        cadastroFormaPagamento.adicionar(formaPagamento);
+        return formaPagamentoModelAssembler.toModel(cadastroFormaPagamento.adicionar(formaPagamento));
     }
 
     @DeleteMapping("/{formaPagamentoId}")

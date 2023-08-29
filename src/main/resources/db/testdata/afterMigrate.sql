@@ -65,3 +65,13 @@ insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Tha
 insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Nhumi', 'Hmm comida boa.', 13.50, false, 2);
 insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Petiscos', 'Batata, calabresa e petiscos.', 12.50, true, 2);
 insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Tuk Tuk Temperado', 'Comida inidiana temperada.', 15.50, true, 3);
+
+insert into grupo (nome) values ('Soldado');
+insert into grupo (nome) values ('Cabo');
+insert into grupo (nome) values ('Sargento');
+insert into grupo (nome) values ('Tenente');
+
+insert into usuario (nome, email, senha, data_cadastro) values ('Carlos', 'carlosdasilva@gmail.com', 'carlao123', utc_timestamp);
+insert into usuario (nome, email, senha, data_cadastro) values ('Enrico', 'enricodasilva@gmail.com', 'senha123', utc_timestamp);
+insert into usuario (nome, email, senha, data_cadastro) values ('Vinicius', 'viniciusdasilva@gmail.com', 'qualquersenhaai', utc_timestamp);
+insert into usuario (nome, email, senha, data_cadastro) values ('Guilherme', 'guilermedasilva@gmail.com', 'fasdfa4s5f4a5378', utc_timestamp);

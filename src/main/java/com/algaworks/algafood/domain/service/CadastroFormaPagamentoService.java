@@ -7,6 +7,7 @@ import com.algaworks.algafood.domain.repository.FormaPagamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CadastroFormaPagamentoService {
@@ -14,10 +15,12 @@ public class CadastroFormaPagamentoService {
     @Autowired
     private FormaPagamentoRepository formaPagamentoRepository;
 
+    @Transactional
     public FormaPagamento adicionar(FormaPagamento formaPagamento) {
         return formaPagamentoRepository.save(formaPagamento);
     }
 
+    @Transactional
     public void excluir(Integer formaPagamentoId) {
         buscarOuFalhar(formaPagamentoId);
 
