@@ -41,9 +41,9 @@ insert into cidade (nome, estado_id) values ('Campinas', 1);
 insert into cidade (nome, estado_id) values ('Salvador', 2);
 insert into cidade (nome, estado_id) values ('Volta Redonda', 3);
 
-insert into restaurante (nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, endereco_cidade_id, ativo) values ('Thai Gourmet', 10, 1, utc_timestamp, utc_timestamp, '01132-023', 'Rua Castro Silva', '835', 'Montadinha', 2, true);
-insert into restaurante (nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, endereco_cidade_id, ativo) values ('Thai Delivery', 9.50, 1, utc_timestamp, utc_timestamp, '01132056', 'Rua Carlos da Silva', '12', 'Campo Limpo', 2, true);
-insert into restaurante (nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, endereco_cidade_id, ativo) values ('Tuk Tuk Comida Indiana', 15, 2, utc_timestamp, utc_timestamp, '123456789', 'Rua Santos de Almeida', '5', 'Campo Sujo', 1, true);
+insert into restaurante (nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, endereco_cidade_id, ativo, aberto) values ('Thai Gourmet', 10, 1, utc_timestamp, utc_timestamp, '01132-023', 'Rua Castro Silva', '835', 'Montadinha', 2, true, true);
+insert into restaurante (nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, endereco_cidade_id, ativo, aberto) values ('Thai Delivery', 9.50, 1, utc_timestamp, utc_timestamp, '01132056', 'Rua Carlos da Silva', '12', 'Campo Limpo', 2, true, true);
+insert into restaurante (nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, endereco_cidade_id, ativo, aberto) values ('Tuk Tuk Comida Indiana', 15, 2, utc_timestamp, utc_timestamp, '123456789', 'Rua Santos de Almeida', '5', 'Campo Sujo', 1, true, true);
 
 insert into forma_pagamento (descricao) values ('Cartão de débito');
 insert into forma_pagamento (descricao) values ('Cartão de crédito');

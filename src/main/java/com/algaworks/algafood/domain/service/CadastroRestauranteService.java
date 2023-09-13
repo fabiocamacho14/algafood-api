@@ -73,6 +73,28 @@ public class CadastroRestauranteService {
     }
 
     @Transactional
+    public void abrir(Integer restauranteId) {
+        Restaurante restaurante = buscarOuFalhar(restauranteId);
+
+        if (restaurante.getAberto() == Boolean.TRUE) {
+            throw new NegocioException(String.format("Restaurante de código %d já está aberto.", restauranteId));
+        }
+
+        restaurante.abrir();
+    }
+
+    @Transactional
+    public void fechar(Integer restauranteId) {
+        Restaurante restaurante = buscarOuFalhar(restauranteId);
+
+        if (restaurante.getAberto() == Boolean.FALSE) {
+            throw new NegocioException(String.format("Restaurante de código %d já está fechado.", restauranteId));
+        }
+
+        restaurante.fechar();
+    }
+
+    @Transactional
     public void desassociarFormaPagamento(Integer restauranteId, Integer formaPagamentoId) {
         Restaurante restaurante = buscarOuFalhar(restauranteId);
         FormaPagamento formaPagamento = cadastroFormaPagamento.buscarOuFalhar(formaPagamentoId);
