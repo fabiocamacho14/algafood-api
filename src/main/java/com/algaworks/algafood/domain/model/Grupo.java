@@ -26,4 +26,12 @@ public class Grupo {
             inverseJoinColumns = @JoinColumn(name = "permissao_id", foreignKey = @ForeignKey(name = "FK_GRUPO_PERMISSAO_PERMISSAO"))
     )
     private List<Permissao> permissoes = new ArrayList<>();
+
+    public boolean adicionarPermissao(Permissao permissao) {
+        return permissoes.add(permissao);
+    }
+
+    public boolean removerPermissao(Permissao permissao) {
+        return permissoes.remove(permissao);
+    }
 }

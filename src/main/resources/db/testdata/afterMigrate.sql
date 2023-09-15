@@ -49,9 +49,6 @@ insert into forma_pagamento (descricao) values ('Cartão de débito');
 insert into forma_pagamento (descricao) values ('Cartão de crédito');
 insert into forma_pagamento (descricao) values ('Dinheiro');
 
-insert into permissao (nome, descricao) values ('CONSULTAR_COZINHAS', 'Permite consultar cozinhas');
-insert into permissao (nome, descricao) values ('EDITAR_COZINHAS', 'Permite editar cozinhas');
-
 insert into restaurante_forma_pagamento (forma_pagamento_id, restaurante_id) values (1, 1);
 insert into restaurante_forma_pagamento (forma_pagamento_id, restaurante_id) values (1, 2);
 insert into restaurante_forma_pagamento (forma_pagamento_id, restaurante_id) values (1, 3);
@@ -70,6 +67,17 @@ insert into grupo (nome) values ('Soldado');
 insert into grupo (nome) values ('Cabo');
 insert into grupo (nome) values ('Sargento');
 insert into grupo (nome) values ('Tenente');
+
+insert into permissao (nome, descricao) values ('CONSULTAR_COZINHAS', 'Permite consultar cozinhas');
+insert into permissao (nome, descricao) values ('EDITAR_COZINHAS', 'Permite editar cozinhas');
+insert into permissao (nome, descricao) values ('QUEBRAR_COZINHAS', 'Permite editar cozinhas');
+
+insert into grupo_permissao (grupo_id, permissao_id) values (1, 1);
+insert into grupo_permissao (grupo_id, permissao_id) values (1, 2);
+insert into grupo_permissao (grupo_id, permissao_id) values (1, 3);
+insert into grupo_permissao (grupo_id, permissao_id) values (2, 1);
+insert into grupo_permissao (grupo_id, permissao_id) values (2, 2);
+insert into grupo_permissao (grupo_id, permissao_id) values (3, 1);
 
 insert into usuario (nome, email, senha, data_cadastro) values ('Carlos', 'carlosdasilva@gmail.com', 'carlao123', utc_timestamp);
 insert into usuario (nome, email, senha, data_cadastro) values ('Enrico', 'enricodasilva@gmail.com', 'senha123', utc_timestamp);
