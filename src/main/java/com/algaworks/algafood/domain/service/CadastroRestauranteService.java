@@ -31,6 +31,9 @@ public class CadastroRestauranteService {
     @Autowired
     private CadastroFormaPagamentoService cadastroFormaPagamento;
 
+    @Autowired
+    private CadastroUsuarioService cadastroUsuario;
+
     @Transactional
     public Restaurante adicionar(Restaurante restaurante) {
         Integer cozinhaId = restaurante.getCozinha().getId();
@@ -117,6 +120,28 @@ public class CadastroRestauranteService {
 
         if (!restaurante.adicionarFormaPagamento(formaPagamento)) {
             throw new NegocioException("Forma de pagamento já associada com o restaurante");
+        }
+    }
+
+    @Transactional
+    public void associarResponsavel(Integer restauranteId, Integer usuarioId) {
+        Restaurante restaurante = buscarOuFalhar(restauranteId);
+        Usuario usuario = cadastroUsuario.buscarOuFalhar(usuarioId);
+
+        if (!restaurante.adicionarUsuario(usuario)) {
+            throw new NegocioException(String.format("Usuário de código %d já associado com o restaurante de código %d",
+                    usuarioId, restauranteId));
+        }
+    }
+
+    @Transactional
+    public void desassociarResponsavel(Integer restauranteId, Integer usuarioId) {
+        Restaurante restaurante = buscarOuFalhar(restauranteId);
+        Usuario usuario = cadastroUsuario.buscarOuFalhar(usuarioId);
+
+        if (!restaurante.removerUsuario(usuario)) {
+            throw new NegocioException(String.format("Usuário de código %d não é responsável do restaurante de código %d",
+                    usuarioId, restauranteId));
         }
     }
 

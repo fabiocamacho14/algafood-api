@@ -10,6 +10,7 @@ delete from permissao;
 delete from produto;
 delete from restaurante;
 delete from restaurante_forma_pagamento;
+delete from restaurante_usuario_responsavel;
 delete from usuario;
 delete from usuario_grupo;
 
@@ -83,3 +84,7 @@ insert into usuario (nome, email, senha, data_cadastro) values ('Carlos', 'carlo
 insert into usuario (nome, email, senha, data_cadastro) values ('Enrico', 'enricodasilva@gmail.com', 'senha123', utc_timestamp);
 insert into usuario (nome, email, senha, data_cadastro) values ('Vinicius', 'viniciusdasilva@gmail.com', 'qualquersenhaai', utc_timestamp);
 insert into usuario (nome, email, senha, data_cadastro) values ('Guilherme', 'guilermedasilva@gmail.com', 'fasdfa4s5f4a5378', utc_timestamp);
+
+insert into restaurante_usuario_responsavel (restaurante_id, usuario_id) values (1, 1);
+insert into restaurante_usuario_responsavel (restaurante_id, usuario_id) values (2, 2);
+insert into restaurante_usuario_responsavel (restaurante_id, usuario_id) values (3, 3);

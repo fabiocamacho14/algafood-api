@@ -8,9 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 //@ValorZeroIncluiDescricao(valor = "taxaFrete", descricaoField = "nome", descricaoObrigatoria = "Frete Grátis")
@@ -64,6 +62,12 @@ public class Restaurante {
 
     private Boolean aberto = Boolean.TRUE;
 
+    @ManyToMany()
+    @JoinTable(name = "restaurante_usuario_responsavel",
+            joinColumns = @JoinColumn(name = "restaurante_id", foreignKey = @ForeignKey(name = "FK_RESTAURANTE_USUARIO_RESPONSAVEL_RESTAURANTE")),
+            inverseJoinColumns = @JoinColumn(name = "usuario_id", foreignKey = @ForeignKey(name = "FK_RESTAURANTE_USUARIO_RESPONSAVEL_USUARIO")))
+    private Set<Usuario> responsaveis;
+
     public void ativar() {
         ativo = Boolean.TRUE;
     }
@@ -86,5 +90,13 @@ public class Restaurante {
 
     public boolean removerFormaPagamento(FormaPagamento formaPagamento) {
         return getFormasPagamento().remove(formaPagamento);
+    }
+
+    public boolean adicionarUsuario(Usuario usuario) {
+        return getResponsaveis().add(usuario);
+    }
+
+    public boolean removerUsuario(Usuario usuario) {
+        return getResponsaveis().remove(usuario);
     }
 }

@@ -66,8 +66,6 @@ public class CadastroProdutoService {
         }
     }
 
-
-
     public Produto buscarOuFalhar(Integer produtoId) {
         return produtoRepository.findById(produtoId).orElseThrow(() -> new ProdutoNaoEncontradoException(produtoId));
     }

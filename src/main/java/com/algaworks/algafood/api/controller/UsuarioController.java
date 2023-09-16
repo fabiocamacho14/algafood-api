@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -47,7 +48,7 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public List<UsuarioModel> listar() {
+    public Collection<UsuarioModel> listar() {
         return usuarioModelAssembler.toCollectionList(usuarioRepository.findAll());
     }
 
