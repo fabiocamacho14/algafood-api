@@ -13,6 +13,8 @@ delete from restaurante_forma_pagamento;
 delete from restaurante_usuario_responsavel;
 delete from usuario;
 delete from usuario_grupo;
+delete from pedido;
+delete from item_pedido;
 
 set foreign_key_checks = 1;
 
@@ -25,6 +27,8 @@ alter table permissao auto_increment = 1;
 alter table produto auto_increment = 1;
 alter table restaurante auto_increment = 1;
 alter table usuario auto_increment = 1;
+alter table pedido auto_increment = 1;
+alter table item_pedido auto_increment = 1;
 
 insert into cozinha (nome) values ('Tailandesa');
 insert into cozinha (nome) values ('Indiana');
@@ -88,3 +92,43 @@ insert into usuario (nome, email, senha, data_cadastro) values ('Guilherme', 'gu
 insert into restaurante_usuario_responsavel (restaurante_id, usuario_id) values (1, 1);
 insert into restaurante_usuario_responsavel (restaurante_id, usuario_id) values (2, 2);
 insert into restaurante_usuario_responsavel (restaurante_id, usuario_id) values (3, 3);
+
+insert into pedido (endereco_cidade_id,
+                    forma_pagamento_id,
+                    restaurante_id,
+                    subtotal,
+                    usuario_id,
+                    valor_total,
+                    data_atualizacao,
+                    data_cancelamento,
+                    data_criacao,
+                    data_entrega,
+                    endereco_cep,
+                    endereco_numero,
+                    endereco_bairro,
+                    endereco_complemento,
+                    endereco_logradouro,
+                    status_pedido)
+                    values (
+                            3,
+                            1,
+                            2,
+                            10.5,
+                            2,
+                            50.2,
+                            utc_timestamp,
+                            null,
+                            utc_timestamp,
+                            utc_timestamp,
+                            '01122555',
+                            '2',
+                            'Mal Retiro',
+                            'Nada',
+                            'Rua Visconde da Silva',
+                            'CONFIRMADO'
+                           );
+
+insert into item_pedido (pedido_id, preco_total, preco_unitario, produto_id, quantidade, observacao)
+values (1, 50.0, 12.25, 2, 3, 'Observado');
+insert into item_pedido (pedido_id, preco_total, preco_unitario, produto_id, quantidade, observacao)
+values (1, 30.0, 2.25, 1, 30, 'Mal Observado');

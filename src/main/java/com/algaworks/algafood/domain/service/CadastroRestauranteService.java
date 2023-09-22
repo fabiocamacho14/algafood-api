@@ -145,6 +145,16 @@ public class CadastroRestauranteService {
         }
     }
 
+    @Transactional
+    public void ativar(List<Integer> restaurantesIds) {
+        restaurantesIds.forEach(this::ativar);
+    }
+
+    @Transactional
+    public void inativar(List<Integer> restaurantesIds) {
+        restaurantesIds.forEach(this::inativar);
+    }
+
     public Restaurante buscarOuFalhar(Integer restauranteId) {
         return restauranteRepository.findById(restauranteId).orElseThrow(() -> new RestauranteNaoEncontradoException(restauranteId));
     }
