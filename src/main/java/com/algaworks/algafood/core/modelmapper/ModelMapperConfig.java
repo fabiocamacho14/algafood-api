@@ -3,9 +3,11 @@ package com.algaworks.algafood.core.modelmapper;
 import com.algaworks.algafood.api.model.CidadeResumoModel;
 import com.algaworks.algafood.api.model.EnderecoModel;
 import com.algaworks.algafood.api.model.EstadoModel;
+import com.algaworks.algafood.api.model.PedidoResumoModel;
 import com.algaworks.algafood.api.model.input.UsuarioPutInput;
 import com.algaworks.algafood.api.model.input.UsuarioPutSenhaInput;
 import com.algaworks.algafood.domain.model.Endereco;
+import com.algaworks.algafood.domain.model.Pedido;
 import com.algaworks.algafood.domain.model.Usuario;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -36,7 +38,11 @@ public class ModelMapperConfig {
                 .addMapping(UsuarioPutSenhaInput::getSenhaNova, Usuario::setSenha);
 //        modelMapper.getTypeMap(UsuarioPutSenhaInput.class, Usuario.class).
 //                addMappings(mapper -> mapper.skip());
-
+//        modelMapper.createTypeMap(Pedido.class, PedidoResumoModel.class)
+//                .addMappings(mapper -> mapper.<String>map(src -> src.getUsuario().getNome(), (dest, v) -> dest.getCliente().setNome(v)))
+//                .addMappings(mapper -> mapper.<String>map(src -> src.getUsuario().getEmail(), (dest, v) -> dest.getCliente().setEmail(v)));
+        modelMapper.createTypeMap(Pedido.class, PedidoResumoModel.class)
+                .addMapping(Pedido::getUsuario, PedidoResumoModel::setCliente);
         return modelMapper;
     }
 }

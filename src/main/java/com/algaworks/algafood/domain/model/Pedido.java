@@ -23,7 +23,7 @@ public class Pedido {
     @Column(name = "subtotal", precision = 10, scale = 2, nullable = false)
     private BigDecimal subtotal;
 
-    @Column(name = "valorTotal", precision = 10, scale = 2, nullable = false)
+    @Column(name = "valor_total", precision = 10, scale = 2, nullable = false)
     private BigDecimal valorTotal;
 
     @CreationTimestamp
@@ -45,7 +45,7 @@ public class Pedido {
     @Embedded
     private Endereco enderecoEntrega;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "forma_pagamento_id", foreignKey = @ForeignKey(name = "FK_PEDIDO_FORMA_PAGAMENTO"), nullable = false)
     private FormaPagamento formaPagamento;
 
@@ -56,9 +56,7 @@ public class Pedido {
     @JoinColumn(name = "usuario_id", foreignKey = @ForeignKey(name = "FK_PEDIDO_USUARIO"), nullable = false)
     private Usuario usuario;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurante_id", foreignKey = @ForeignKey(name = "FK_PEDIDO_RESTAURANTE"), nullable = false)
     private Restaurante restaurante;
-
-
 }
