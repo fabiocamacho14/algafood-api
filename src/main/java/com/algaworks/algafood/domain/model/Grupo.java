@@ -1,15 +1,17 @@
 package com.algaworks.algafood.domain.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Grupo {
 
     @EqualsAndHashCode.Include

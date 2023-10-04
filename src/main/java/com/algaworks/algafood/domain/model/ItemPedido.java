@@ -1,14 +1,16 @@
 package com.algaworks.algafood.domain.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import java.math.BigDecimal;
 
-@Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class ItemPedido {
 
     @EqualsAndHashCode.Include
@@ -35,4 +37,9 @@ public class ItemPedido {
     @ManyToOne
     @JoinColumn(name = "pedido_id", foreignKey = @ForeignKey(name = "FK_PEDIDO_ITEM_PEDIDO"), nullable = false)
     private Pedido pedido;
+
+    public void calcularPrecoTotal() {
+        precoTotal = produto.getPreco().multiply(BigDecimal.valueOf(quantidade));
+    }
+
 }

@@ -1,9 +1,12 @@
 package com.algaworks.algafood.domain.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Embeddable
 public class Endereco {
 

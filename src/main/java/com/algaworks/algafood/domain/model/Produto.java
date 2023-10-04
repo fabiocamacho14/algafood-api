@@ -1,14 +1,16 @@
 package com.algaworks.algafood.domain.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import java.math.BigDecimal;
 
-@Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Produto {
 
     @EqualsAndHashCode.Include

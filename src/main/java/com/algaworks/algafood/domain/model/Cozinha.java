@@ -1,16 +1,19 @@
 package com.algaworks.algafood.domain.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 //@JsonRootName("cozinha")
-@Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 //@Table(name = "tab_cozinhas")
 public class Cozinha {
 

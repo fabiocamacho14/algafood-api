@@ -1,8 +1,7 @@
 package com.algaworks.algafood.domain.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
@@ -10,9 +9,12 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Pedido {
 
     @EqualsAndHashCode.Include
@@ -49,7 +51,7 @@ public class Pedido {
     @JoinColumn(name = "forma_pagamento_id", foreignKey = @ForeignKey(name = "FK_PEDIDO_FORMA_PAGAMENTO"), nullable = false)
     private FormaPagamento formaPagamento;
 
-    @OneToMany(mappedBy = "pedido")
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     private List<ItemPedido> itens = new ArrayList<>();
 
     @ManyToOne
@@ -59,4 +61,26 @@ public class Pedido {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurante_id", foreignKey = @ForeignKey(name = "FK_PEDIDO_RESTAURANTE"), nullable = false)
     private Restaurante restaurante;
+
+    public void calcularPedido() {
+        System.out.println("-------------------------------------");
+        getItens().forEach(ItemPedido::calcularPrecoTotal);
+        for (ItemPedido itemPedido: getItens()){
+            System.out.println("-------------------------------------");
+            System.out.println(itemPedido.toString());
+        };
+//        List<BigDecimal> precos = itens.stream().
+//                map(itemPedido -> (itemPedido.getProduto().getPreco().multiply(BigDecimal.valueOf(itemPedido.getQuantidade())))).toList();
+//        BigDecimal soma = precos.stream().
+//                reduce(BigDecimal.ZERO, BigDecimal::add);
+
+//        subtotal = itens.stream()
+//                .map(ItemPedido::getPrecoTotal)
+//                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        subtotal = BigDecimal.ZERO;
+        for (ItemPedido itemPedido: itens) {
+            subtotal = getSubtotal().add(itemPedido.getProduto().getPreco());
+        }
+        valorTotal = subtotal.add(restaurante.getTaxaFrete());
+    }
 }

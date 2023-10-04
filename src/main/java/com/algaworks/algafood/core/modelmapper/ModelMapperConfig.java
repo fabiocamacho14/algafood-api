@@ -1,17 +1,20 @@
 package com.algaworks.algafood.core.modelmapper;
 
-import com.algaworks.algafood.api.model.CidadeResumoModel;
-import com.algaworks.algafood.api.model.EnderecoModel;
-import com.algaworks.algafood.api.model.EstadoModel;
-import com.algaworks.algafood.api.model.PedidoResumoModel;
+import com.algaworks.algafood.api.model.*;
+import com.algaworks.algafood.api.model.input.ItemPedidoInput;
+import com.algaworks.algafood.api.model.input.PedidoInput;
 import com.algaworks.algafood.api.model.input.UsuarioPutInput;
 import com.algaworks.algafood.api.model.input.UsuarioPutSenhaInput;
 import com.algaworks.algafood.domain.model.Endereco;
+import com.algaworks.algafood.domain.model.ItemPedido;
 import com.algaworks.algafood.domain.model.Pedido;
 import com.algaworks.algafood.domain.model.Usuario;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.math.BigDecimal;
+
 
 @Configuration
 public class ModelMapperConfig {
@@ -43,6 +46,21 @@ public class ModelMapperConfig {
 //                .addMappings(mapper -> mapper.<String>map(src -> src.getUsuario().getEmail(), (dest, v) -> dest.getCliente().setEmail(v)));
         modelMapper.createTypeMap(Pedido.class, PedidoResumoModel.class)
                 .addMapping(Pedido::getUsuario, PedidoResumoModel::setCliente);
+
+//        modelMapper.createTypeMap(ItemPedidoInput.class, ItemPedido.class)
+//                .addMapping(ItemPedidoInput::getProdutoId, ItemPedido::setId)
+//                .addMapping(ItemPedidoInput::getObservacao, ItemPedido::setObservacao)
+//                .addMapping(ItemPedidoInput::getQuantidade, ItemPedido::setQuantidade);
+
+
+        modelMapper.createTypeMap(ItemPedidoInput.class, ItemPedido.class)
+                .addMappings(mapper -> mapper.skip(ItemPedido::setId));
+//                .addMapping(ItemPedidoInput::getProdutoId, ItemPedido::setProduto);
+
+        modelMapper.createTypeMap(Pedido.class, PedidoModel.class)
+                .addMapping(src -> src.getRestaurante().getTaxaFrete(), (dest, value) -> dest.setTaxaFrete((BigDecimal) value))
+//                .addMapping(Pedido::getUsuario, (dest, value) -> dest.setTaxaFrete((BigDecimal) value));
+                .addMapping(Pedido::getUsuario, PedidoModel::setCliente);
         return modelMapper;
     }
 }

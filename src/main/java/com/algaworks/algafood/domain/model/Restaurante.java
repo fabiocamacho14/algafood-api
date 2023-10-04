@@ -1,8 +1,7 @@
 package com.algaworks.algafood.domain.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,9 +11,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 //@ValorZeroIncluiDescricao(valor = "taxaFrete", descricaoField = "nome", descricaoObrigatoria = "Frete Grátis")
-@Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Restaurante {
 
     @EqualsAndHashCode.Include
@@ -98,5 +100,9 @@ public class Restaurante {
 
     public boolean removerUsuario(Usuario usuario) {
         return getResponsaveis().remove(usuario);
+    }
+
+    public boolean verificarSeContemFormaPagamento(FormaPagamento formaPagamento) {
+        return getFormasPagamento().contains(formaPagamento);
     }
 }
