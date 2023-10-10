@@ -80,7 +80,7 @@ public class CadastroPedidoService {
         return pedidoRepository.save(pedido);
     }
 
-    public Pedido buscarOuFalhar(Integer pedidoId) {
-        return pedidoRepository.findById(pedidoId).orElseThrow(() -> new PedidoNaoEncontradoException(pedidoId));
+    public Pedido buscarOuFalhar(String codigo) {
+        return pedidoRepository.findByCodigo(codigo).orElseThrow(() -> new PedidoNaoEncontradoException(codigo));
     }
 }

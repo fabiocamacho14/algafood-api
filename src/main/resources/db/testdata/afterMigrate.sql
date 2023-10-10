@@ -108,7 +108,8 @@ insert into pedido (endereco_cidade_id,
                     endereco_bairro,
                     endereco_complemento,
                     endereco_logradouro,
-                    status_pedido)
+                    status_pedido,
+                    codigo)
                     values (
                             3,
                             1,
@@ -125,7 +126,8 @@ insert into pedido (endereco_cidade_id,
                             'Mal Retiro',
                             'Nada',
                             'Rua Visconde da Silva',
-                            'CONFIRMADO'
+                            'CONFIRMADO',
+                            '107a964d-6710-11ee-bd22-025072131a20'
                            );
 
 insert into item_pedido (pedido_id, preco_total, preco_unitario, produto_id, quantidade, observacao)

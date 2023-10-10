@@ -16,47 +16,23 @@ public class FluxoPedidoService {
     private CadastroPedidoService cadastroPedidoService;
 
     @Transactional
-    public void confirmar(Integer pedidoId) {
-        Pedido pedido = cadastroPedidoService.buscarOuFalhar(pedidoId);
+    public void confirmar(String codigoPedido) {
+        Pedido pedido = cadastroPedidoService.buscarOuFalhar(codigoPedido);
 
-        if (!pedido.getStatusPedido().equals(StatusPedido.CRIADO)) {
-            throw new NegocioException(String.format("Status de pedido %d não pode ser alterado de %s para %s",
-                    pedidoId,
-                    pedido.getStatusPedido().getDescricao(),
-                    StatusPedido.CONFIRMADO.getDescricao()));
-        }
-
-        pedido.setStatusPedido(StatusPedido.CONFIRMADO);
-        pedido.setDataConfirmacao(OffsetDateTime.now());
+        pedido.confirmar();
     }
 
     @Transactional
-    public void entregar(Integer pedidoId) {
-        Pedido pedido = cadastroPedidoService.buscarOuFalhar(pedidoId);
+    public void entregar(String codigoPedido) {
+        Pedido pedido = cadastroPedidoService.buscarOuFalhar(codigoPedido);
 
-        if (!pedido.getStatusPedido().equals(StatusPedido.CONFIRMADO)) {
-            throw new NegocioException(String.format("Status de pedido %d não pode ser alterado de %s para %s",
-                    pedidoId,
-                    pedido.getStatusPedido().getDescricao(),
-                    StatusPedido.ENTREGUE.getDescricao()));
-        }
-
-        pedido.setStatusPedido(StatusPedido.ENTREGUE);
-        pedido.setDataConfirmacao(OffsetDateTime.now());
+        pedido.entregar();
     }
 
     @Transactional
-    public void cancelar(Integer pedidoId) {
-        Pedido pedido = cadastroPedidoService.buscarOuFalhar(pedidoId);
+    public void cancelar(String codigoPedido) {
+        Pedido pedido = cadastroPedidoService.buscarOuFalhar(codigoPedido);
 
-        if (!pedido.getStatusPedido().equals(StatusPedido.CONFIRMADO)) {
-            throw new NegocioException(String.format("Status de pedido %d não pode ser alterado de %s para %s",
-                    pedidoId,
-                    pedido.getStatusPedido().getDescricao(),
-                    StatusPedido.CANCELADO.getDescricao()));
-        }
-
-        pedido.setStatusPedido(StatusPedido.CANCELADO);
-        pedido.setDataConfirmacao(OffsetDateTime.now());
+        pedido.cancelar();
     }
 }

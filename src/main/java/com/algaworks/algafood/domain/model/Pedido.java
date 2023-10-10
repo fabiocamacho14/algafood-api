@@ -1,5 +1,6 @@
 package com.algaworks.algafood.domain.model;
 
+import com.algaworks.algafood.domain.exception.NegocioException;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -8,6 +9,7 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Setter
@@ -21,6 +23,9 @@ public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(name = "codigo", nullable = false, length = 36)
+    private String codigo;
 
     @Column(name = "subtotal", precision = 10, scale = 2, nullable = false)
     private BigDecimal subtotal;
@@ -82,5 +87,36 @@ public class Pedido {
             subtotal = getSubtotal().add(itemPedido.getProduto().getPreco());
         }
         valorTotal = subtotal.add(restaurante.getTaxaFrete());
+    }
+
+    public void confirmar() {
+        setStatus(StatusPedido.CONFIRMADO);
+        setDataConfirmacao(OffsetDateTime.now());
+    }
+
+    public void entregar() {
+        setStatus(StatusPedido.ENTREGUE);
+        setDataConfirmacao(OffsetDateTime.now());
+    }
+
+    public void cancelar() {
+        setStatus(StatusPedido.CANCELADO);
+        setDataConfirmacao(OffsetDateTime.now());
+    }
+
+    private void setStatus(StatusPedido novoStatus) {
+        if (getStatusPedido().naoPodeAlterarPara(novoStatus)) {
+            throw new NegocioException(String.format("Status de pedido %s não pode ser alterado de %s para %s",
+                    getCodigo(),
+                    getStatusPedido().getDescricao(),
+                    novoStatus.getDescricao()));
+        }
+
+        this.statusPedido = novoStatus;
+    }
+
+    @PrePersist
+    private void gerarCodigo() {
+        setCodigo(UUID.randomUUID().toString());
     }
 }
