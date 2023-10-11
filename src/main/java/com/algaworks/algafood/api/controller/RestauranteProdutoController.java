@@ -36,10 +36,15 @@ public class RestauranteProdutoController {
     private ProdutoRepository produtoRepository;
 
     @GetMapping
-    public List<ProdutoModel> listar(@PathVariable Integer restauranteId) {
+    public List<ProdutoModel> listar(@PathVariable Integer restauranteId, @RequestParam(required = false) boolean incluirInativos) {
         Restaurante restaurante = cadastroRestaurante.buscarOuFalhar(restauranteId);
-//        return produtoModelAssembler.toCollectionModel(restaurante.getProdutos());
-        return produtoModelAssembler.toCollectionModel(produtoRepository.findByPrecoBetween(BigDecimal.valueOf(12.0), BigDecimal.valueOf(20.0)));
+        if (incluirInativos) {
+            return produtoModelAssembler.toCollectionModel(restaurante.getProdutos());
+
+        } else {
+            return produtoModelAssembler.toCollectionModel(produtoRepository.findAtivosByRestaurante(restaurante));
+        }
+//        return produtoModelAssembler.toCollectionModel(produtoRepository.findByPrecoBetween(BigDecimal.valueOf(12.0), BigDecimal.valueOf(20.0)));
     }
 
     @GetMapping("/{produtoId}")
