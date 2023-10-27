@@ -15,6 +15,4 @@ public interface PedidoRepository extends CustomJpaRepository<Pedido, Integer> {
 
     @Query("select p from Pedido p join fetch p.restaurante r join fetch p.usuario join fetch r.cozinha")
     List<Pedido> findAll();
-
-    
 }

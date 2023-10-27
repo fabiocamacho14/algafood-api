@@ -105,7 +105,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<?> handleTypeMismatchException(MethodArgumentTypeMismatchException ex, WebRequest request) {
 
-
         String detail = String.format("O parâmetro de URL '%s' recebeu o valor '%s', que é de um tipo inválido. Corrija e" +
                 " informe um valor compatível com o tipo %s.", ex.getParameter().getParameterName(), ex.getValue().toString(), ex.getRequiredType().getSimpleName());
         HttpStatus status = HttpStatus.BAD_REQUEST;
@@ -176,38 +175,10 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     private ResponseEntity<Object> handleValidacaoException(ValidacaoException ex, WebRequest request) {
 //        return handleMethodArgumentNotValid(ex, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
         return handleExceptionInternal(ex, getProblem(ex.getBindingResult()), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
-
     }
-
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-//        String detail = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.";
-//        HttpStatus statusBad = HttpStatus.BAD_REQUEST;
-//        ProblemType problemType = ProblemType.DADOS_INVALIDOS;
-////        List<Problem.Field> problemObjects = ex.getBindingResult().getFieldErrors().stream()
-//        List<Problem.Object> problemObjects = ex.getBindingResult().getAllErrors()
-//                .stream()
-//                .map(error -> {
-//                    String message = messageSource.getMessage(error, LocaleContextHolder.getLocale());
-//                    String name = error.getObjectName();
-//
-//                    if (error instanceof FieldError) {
-//                        name = ((FieldError) error).getField();
-//                    }
-//
-//                    return Problem.Object.builder()
-//                    .name(name)
-//                    .userMessage(message)
-//                    .build();
-//                }).toList();
-//
-//        Problem problem = createProblemBuilder(statusBad, problemType, detail, LocalDateTime.now())
-//                .userMessage(MSG_ERRO_SISTEMA)
-//                .objects(problemObjects)
-//                .build();
-
-
         return handleExceptionInternal(ex, getProblem(ex.getBindingResult()), headers, HttpStatus.BAD_REQUEST, request);
     }
 

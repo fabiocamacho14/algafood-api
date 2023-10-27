@@ -1,6 +1,5 @@
 package com.algaworks.algafood.domain.service;
 
-import com.algaworks.algafood.api.model.PermissaoModel;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.GrupoNaoEncontradoException;
 import com.algaworks.algafood.domain.exception.NegocioException;
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class CadastroGrupoService {
+public class  CadastroGrupoService {
 
     @Autowired
     private GrupoRepository grupoRepository;
