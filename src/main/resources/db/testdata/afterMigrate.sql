@@ -15,6 +15,7 @@ delete from usuario;
 delete from usuario_grupo;
 delete from pedido;
 delete from item_pedido;
+delete from foto_produto;
 
 set foreign_key_checks = 1;
 
@@ -29,6 +30,7 @@ alter table restaurante auto_increment = 1;
 alter table usuario auto_increment = 1;
 alter table pedido auto_increment = 1;
 alter table item_pedido auto_increment = 1;
+alter table foto_produto auto_increment = 1;
 
 insert into cozinha (nome) values ('Tailandesa');
 insert into cozinha (nome) values ('Indiana');

@@ -77,6 +77,7 @@ public class CadastroPedidoService {
 
         pedido.calcularPedido();
 
+
         return pedidoRepository.save(pedido);
     }
 
