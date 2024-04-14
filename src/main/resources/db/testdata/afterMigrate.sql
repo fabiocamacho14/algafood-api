@@ -90,6 +90,7 @@ insert into usuario (nome, email, senha, data_cadastro) values ('Carlos', 'carlo
 insert into usuario (nome, email, senha, data_cadastro) values ('Enrico', 'enricodasilva@gmail.com', 'senha123', utc_timestamp);
 insert into usuario (nome, email, senha, data_cadastro) values ('Vinicius', 'viniciusdasilva@gmail.com', 'qualquersenhaai', utc_timestamp);
 insert into usuario (nome, email, senha, data_cadastro) values ('Guilherme', 'guilermedasilva@gmail.com', 'fasdfa4s5f4a5378', utc_timestamp);
+insert into usuario (nome, email, senha, data_cadastro) values ('Fábio Camacho Carvajal', 'fabtuscamacho@hotmail.com', 'senhadofabio', utc_timestamp);
 
 insert into restaurante_usuario_responsavel (restaurante_id, usuario_id) values (1, 1);
 insert into restaurante_usuario_responsavel (restaurante_id, usuario_id) values (2, 2);
@@ -153,7 +154,7 @@ insert into pedido (endereco_cidade_id,
                             1,
                             2,
                             10.5,
-                            2,
+                            5,
                             250.2,
                             utc_timestamp,
                             null,
@@ -164,7 +165,7 @@ insert into pedido (endereco_cidade_id,
                             'Mal Retiro',
                             'Nada',
                             'Rua Visconde da Silva',
-                            'CONFIRMADO',
+                            'CRIADO',
                             '107a864d-6710-11ee-bd22-025072131a20'
                            );
 

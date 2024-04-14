@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pedido confirmado</title>
+  <!-- <link rel="stylesheet" th:href="@{../static/css/style.css}"> -->
+</head>
+
+<body>
+  <style>
+    h1 {
+      color: red;
+      font-size: 26px;
+    }
+
+    h2 {
+      font-size: 20px;
+    }
+
+    p {
+      color: #6f6f6f;
+    }
+
+    table {
+      max-width: 400px;
+      color: #6f6f6f;
+    }
+
+    tr {
+      display: flex;
+      gap: 50px;
+    }
+
+    .td-1 {
+      padding: 10px 0px;
+    }
+
+
+    .td-2-title {
+      width: 30px;
+    }
+
+    .tr-bold {
+      font-weight: bold;
+    }
+  </style>
+
+  <h1>Pedido Cancelado.</h1>
+
+  <p th:text="${pedido.usuario.nome} + ', seu pedido foi cancelado pelo restaurante ' + ${pedido.restaurante.nome} + '. Lamentamos o ocorrido.'"></p>
+
+  <table>
+    <tr th:each="item : ${pedido.itens}">
+      <td th:text="${item.quantidade} + ' x ' + ${item.produto.nome}" class="td-1"></td>
+      <td th:text="${#numbers.formatCurrency(item.precoTotal)}" class="td-2-title"></td>
+    </tr>
+    <tr>
+      <td class="td-1">Frete</td>
+      <td th:text="${#numbers.formatCurrency(pedido.restaurante.taxaFrete)}"></td>
+    </tr>
+    <tr class="tr-bold">
+      <td class="td-1">Total</td>
+      <td th:text="${pedido.valorTotal}"></td>
+    </tr>
+  </table>
+
+  <h2>Forma de pagamento</h2>
+  <p th:text="${pedido.formaPagamento.descricao}"></p>
+</body>
+
+</html>

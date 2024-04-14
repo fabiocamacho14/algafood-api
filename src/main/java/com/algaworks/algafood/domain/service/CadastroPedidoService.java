@@ -38,6 +38,8 @@ public class CadastroPedidoService {
         Integer restauranteId = pedido.getRestaurante().getId();
         Restaurante restaurante = cadastroRestauranteService.buscarOuFalhar(restauranteId);
 
+        Usuario usuario = cadastroUsuarioService.buscarOuFalhar(pedido.getUsuario().getId());
+
         Integer formaPagamentoId = pedido.getFormaPagamento().getId();
         FormaPagamento formaPagamento = cadastroFormaPagamentoService.buscarOuFalhar(formaPagamentoId);
 
@@ -47,6 +49,7 @@ public class CadastroPedidoService {
         List<ItemPedido> itens = pedido.getItens().stream()
                 .map(itemPedido -> {
                     Produto produto = cadastroProdutoService.buscarOuFalhar(itemPedido.getProduto().getId());
+                    itemPedido.setPedido(pedido);
                     itemPedido.setProduto(produto);
                     itemPedido.setPrecoUnitario(produto.getPreco());
                     return itemPedido;
@@ -59,7 +62,7 @@ public class CadastroPedidoService {
         pedido.setFormaPagamento(formaPagamento);
 //        pedido.getRestaurante().setTaxaFrete(restaurante.getTaxaFrete()); TODO arruma isso aqui
 //        Cliente padrão por enquanto
-        pedido.setUsuario(cadastroUsuarioService.buscarOuFalhar(1));
+        pedido.setUsuario(usuario);
 
 
         if (!restaurante.verificarSeContemFormaPagamento(formaPagamento)) {

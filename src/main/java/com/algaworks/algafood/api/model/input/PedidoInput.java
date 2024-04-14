@@ -28,4 +28,8 @@ public class PedidoInput {
     @NotEmpty
     @Valid
     private List<ItemPedidoInput> itens;
+
+    @NotNull
+    @Valid
+    private UsuarioIdInput usuario;
 }
