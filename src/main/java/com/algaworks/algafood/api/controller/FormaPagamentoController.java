@@ -16,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/formaPagamentos")
+@CrossOrigin
 public class FormaPagamentoController {
 
     @Autowired
