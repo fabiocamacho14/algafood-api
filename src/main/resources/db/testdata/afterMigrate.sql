@@ -52,9 +52,9 @@ insert into restaurante (nome, taxa_frete, cozinha_id, data_cadastro, data_atual
 insert into restaurante (nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, endereco_cidade_id, ativo, aberto) values ('Thai Delivery', 9.50, 1, utc_timestamp, utc_timestamp, '01132056', 'Rua Carlos da Silva', '12', 'Campo Limpo', 2, true, true);
 insert into restaurante (nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, endereco_cidade_id, ativo, aberto) values ('Tuk Tuk Comida Indiana', 15, 2, utc_timestamp, utc_timestamp, '123456789', 'Rua Santos de Almeida', '5', 'Campo Sujo', 1, true, true);
 
-insert into forma_pagamento (descricao) values ('Cartão de débito');
-insert into forma_pagamento (descricao) values ('Cartão de crédito');
-insert into forma_pagamento (descricao) values ('Dinheiro');
+insert into forma_pagamento (descricao, data_atualizacao) values ('Cartão de débito', utc_timestamp);
+insert into forma_pagamento (descricao, data_atualizacao) values ('Cartão de crédito', utc_timestamp);
+insert into forma_pagamento (descricao, data_atualizacao) values ('Dinheiro', utc_timestamp);
 
 insert into restaurante_forma_pagamento (forma_pagamento_id, restaurante_id) values (1, 1);
 insert into restaurante_forma_pagamento (forma_pagamento_id, restaurante_id) values (1, 2);

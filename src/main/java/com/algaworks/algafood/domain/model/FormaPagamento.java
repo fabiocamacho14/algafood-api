@@ -2,6 +2,9 @@ package com.algaworks.algafood.domain.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.OffsetDateTime;
 
 @Entity
 @Setter
@@ -18,6 +21,9 @@ public class FormaPagamento {
 
     @Column(name = "descricao", length = 60, nullable = false)
     private String descricao;
+
+    @UpdateTimestamp
+    private OffsetDateTime dataAtualizacao;
 
 //    @JsonIgnore
 //    @ManyToMany(mappedBy = "formasPagamento")
