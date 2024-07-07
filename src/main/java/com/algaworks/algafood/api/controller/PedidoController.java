@@ -6,6 +6,7 @@ import com.algaworks.algafood.api.assembler.PedidoResumoModelAssembler;
 import com.algaworks.algafood.api.model.PedidoModel;
 import com.algaworks.algafood.api.model.PedidoResumoModel;
 import com.algaworks.algafood.api.model.input.PedidoInput;
+import com.algaworks.algafood.api.openapi.controller.PedidoControllerOpenApi;
 import com.algaworks.algafood.domain.model.Pedido;
 import com.algaworks.algafood.domain.repository.PedidoRepository;
 import com.algaworks.algafood.domain.service.CadastroPedidoService;
@@ -22,7 +23,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/pedidos")
-public class PedidoController {
+public class PedidoController implements PedidoControllerOpenApi {
 
     @Autowired
     private CadastroPedidoService cadastroPedido;
@@ -44,6 +45,7 @@ public class PedidoController {
 //        return pedidoResumoModelAssembler.toCollectionModel(pedidoRepository.findAll());
 //    }
 
+    @Override
     @GetMapping
     public MappingJacksonValue listar(@RequestParam(required = false) String campos) {
         List<Pedido> pedidos = pedidoRepository.findAll();
@@ -64,11 +66,13 @@ public class PedidoController {
         return mappingJacksonValue;
     }
 
+    @Override
     @GetMapping("/{codigoPedido}")
     public PedidoModel buscar(@PathVariable String codigoPedido) {
         return pedidoModelAssembler.toModel(cadastroPedido.buscarOuFalhar(codigoPedido));
     }
 
+    @Override
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public PedidoModel adicionar(@RequestBody @Valid PedidoInput pedidoInput) {

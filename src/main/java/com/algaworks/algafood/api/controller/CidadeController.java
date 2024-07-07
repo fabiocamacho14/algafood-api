@@ -4,6 +4,7 @@ import com.algaworks.algafood.api.assembler.CidadeInputDisassembler;
 import com.algaworks.algafood.api.assembler.CidadeModelAssembler;
 import com.algaworks.algafood.api.model.CidadeModel;
 import com.algaworks.algafood.api.model.input.CidadeInput;
+import com.algaworks.algafood.api.openapi.controller.CidadeControllerOpenApi;
 import com.algaworks.algafood.domain.exception.EstadoNaoEncontradoException;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.model.Cidade;
@@ -18,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/cidades")
-public class CidadeController {
+public class CidadeController implements CidadeControllerOpenApi {
 
     @Autowired
     private CidadeRepository cidadeRepository;
@@ -32,16 +33,19 @@ public class CidadeController {
     @Autowired
     private CidadeInputDisassembler cidadeInputDisassembler;
 
+    @Override
     @GetMapping
     public List<CidadeModel> listar() {
         return cidadeModelAssembler.toCollectionModel(cidadeRepository.findAll());
     }
 
+    @Override
     @GetMapping("/{cidadeId}")
     public CidadeModel buscar(@PathVariable Integer cidadeId) {
         return cidadeModelAssembler.toModel(cadastroCidade.buscarOuFalhar(cidadeId));
     }
 
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CidadeModel adicionar(@RequestBody @Valid CidadeInput cidade) {
@@ -54,6 +58,7 @@ public class CidadeController {
         }
     }
 
+    @Override
     @PutMapping("/{cidadeId}")
     public CidadeModel atualizar(@PathVariable Integer cidadeId, @Valid @RequestBody CidadeInput cidade) {
         cadastroCidade.buscarOuFalhar(cidadeId);
@@ -67,6 +72,8 @@ public class CidadeController {
         }
     }
 
+
+    @Override
     @DeleteMapping("/{cidadeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void excluir(@PathVariable Integer cidadeId) {

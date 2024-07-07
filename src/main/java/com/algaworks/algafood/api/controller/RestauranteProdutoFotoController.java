@@ -24,7 +24,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/restaurantes/{restauranteId}/produtos/{produtoId}/foto")
-public class RestauranteProdutoFotoController {
+public class RestauranteProdutoFotoController implements com.algaworks.algafood.api.openapi.controller.RestauranteProdutoFotoControllerOpenApi {
 
     @Autowired
     private CadastroProdutoService cadastroProdutoService;
@@ -38,6 +38,7 @@ public class RestauranteProdutoFotoController {
     @Autowired
     private FotoStorageService fotoStorageService;
 
+    @Override
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public FotoProdutoModel atualizar(@PathVariable Integer restauranteId, @PathVariable Integer produtoId,
                                       @Valid FotoProdutoInput fotoProdutoInput) throws IOException {
@@ -72,10 +73,10 @@ public class RestauranteProdutoFotoController {
         fotoProduto.setNomeArquivo(arquivo.getOriginalFilename());
 
         FotoProduto fotoSalva = catalogoFotoProdutoService.salvar(fotoProduto, arquivo.getInputStream());
-
         return fotoProdutoModelAssembler.toModel(fotoSalva);
     }
 
+    @Override
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public FotoProdutoModel buscar(@PathVariable Integer restauranteId, @PathVariable Integer produtoId) {
         cadastroProdutoService.buscarProdutoEmRestauranteEspecifico(restauranteId, produtoId);
@@ -83,6 +84,7 @@ public class RestauranteProdutoFotoController {
     }
 
 //    @GetMapping(produces = MediaType.IMAGE_JPEG_VALUE)
+    @Override
     @GetMapping
     public ResponseEntity<InputStreamResource> servirFoto(@PathVariable Integer restauranteId,
                                                           @PathVariable Integer produtoId,
@@ -105,15 +107,7 @@ public class RestauranteProdutoFotoController {
         }
     }
 
-    private void verificarCompatibilidadeMediaType(MediaType mediaType, List<MediaType> mediaTypeList) throws HttpMediaTypeNotAcceptableException {
-        boolean compativel =  mediaTypeList.stream()
-                .anyMatch(mediaTypeAceita -> mediaTypeAceita.isCompatibleWith(mediaType));
-        
-        if (!compativel) {
-            throw new HttpMediaTypeNotAcceptableException(mediaTypeList);
-        }
-    }
-
+    @Override
     @DeleteMapping
     public void excluirFoto(@PathVariable Integer restauranteId,
                             @PathVariable Integer produtoId) {
@@ -122,5 +116,14 @@ public class RestauranteProdutoFotoController {
         FotoProduto fotoProduto = catalogoFotoProdutoService.buscarOuFalhar(restauranteId, produtoId);
 
         catalogoFotoProdutoService.excluir(fotoProduto);
+    }
+
+    private void verificarCompatibilidadeMediaType(MediaType mediaType, List<MediaType> mediaTypeList) throws HttpMediaTypeNotAcceptableException {
+        boolean compativel = mediaTypeList.stream()
+                .anyMatch(mediaTypeAceita -> mediaTypeAceita.isCompatibleWith(mediaType));
+
+        if (!compativel) {
+            throw new HttpMediaTypeNotAcceptableException(mediaTypeList);
+        }
     }
 }

@@ -4,9 +4,11 @@ import com.algaworks.algafood.api.assembler.CozinhaInputDisassembler;
 import com.algaworks.algafood.api.assembler.CozinhaModelAssembler;
 import com.algaworks.algafood.api.model.CozinhaModel;
 import com.algaworks.algafood.api.model.input.CozinhaInput;
+import com.algaworks.algafood.api.openapi.controller.CozinhaControllerOpenApi;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.service.CadastroCozinhaService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,7 +25,8 @@ import java.util.List;
 @RestController
 //@RequestMapping(value = "/cozinhas", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequestMapping("/cozinhas")
-public class CozinhaController {
+@Tag(name = "Controlador de cozinhas", description = "Todos os controladores relativos a cozinhas cadastradas")
+public class CozinhaController implements CozinhaControllerOpenApi {
 
     @Autowired
     private CozinhaRepository cozinhaRepository;
@@ -38,6 +41,7 @@ public class CozinhaController {
     private CozinhaInputDisassembler cozinhaInputDisassembler;
 
 //    @GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+    @Override
     @GetMapping
     public Page<CozinhaModel> listar(@PageableDefault(size = 10) Pageable pageable) {
         Page<Cozinha> cozinhasPage = cozinhaRepository.findAll(pageable);
@@ -62,6 +66,7 @@ public class CozinhaController {
 //        return ResponseEntity.status(HttpStatus.FOUND).headers(headers).build();
 //    }
 
+    @Override
     @GetMapping("/{cozinhaId}")
     public CozinhaModel buscar(@PathVariable Integer cozinhaId) {
         return cozinhaModelAssembler.toModel(cadastroCozinha.buscarOuFalhar(cozinhaId));
@@ -76,6 +81,7 @@ public class CozinhaController {
 //        return ResponseEntity.notFound().build();
     }
 
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CozinhaModel adicionar(@RequestBody @Valid CozinhaInput cozinhaInput) {
@@ -84,6 +90,7 @@ public class CozinhaController {
     }
 
 
+    @Override
     @PutMapping("/{cozinhaId}")
     public CozinhaModel atualizar(@PathVariable Integer cozinhaId, @Valid @RequestBody CozinhaInput cozinha) {
         cadastroCozinha.buscarOuFalhar(cozinhaId);
@@ -116,6 +123,7 @@ public class CozinhaController {
 //        }
 //    }
 
+    @Override
     @DeleteMapping("/{cozinhaId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Integer cozinhaId) {

@@ -4,6 +4,7 @@ import com.algaworks.algafood.api.assembler.FormaPagamentoInputDisassembler;
 import com.algaworks.algafood.api.assembler.FormaPagamentoModelAssembler;
 import com.algaworks.algafood.api.model.FormaPagamentoModel;
 import com.algaworks.algafood.api.model.input.FormaPagamentoInput;
+import com.algaworks.algafood.api.openapi.controller.FormaPagamentoOpenApi;
 import com.algaworks.algafood.domain.model.FormaPagamento;
 import com.algaworks.algafood.domain.repository.FormaPagamentoRepository;
 import com.algaworks.algafood.domain.service.CadastroFormaPagamentoService;
@@ -23,7 +24,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/formaPagamentos")
 @CrossOrigin
-public class FormaPagamentoController {
+public class FormaPagamentoController implements FormaPagamentoOpenApi {
 
     @Autowired
     private CadastroFormaPagamentoService cadastroFormaPagamento;
@@ -37,6 +38,7 @@ public class FormaPagamentoController {
     @Autowired
     private FormaPagamentoInputDisassembler formaPagamentoInputDisassembler;
 
+    @Override
     @GetMapping()
     public ResponseEntity<List<FormaPagamentoModel>> listar(ServletWebRequest request) {
         ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
@@ -67,6 +69,7 @@ public class FormaPagamentoController {
                 .body(formasPagamento);
     }
 
+    @Override
     @GetMapping("/{formaPagamentoId}")
     public ResponseEntity<FormaPagamentoModel> buscar(@PathVariable @Valid Integer formaPagamentoId,
                                                       ServletWebRequest request) {
@@ -92,6 +95,7 @@ public class FormaPagamentoController {
                 .body(formaPagamentoModel);
     }
 
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public FormaPagamentoModel adicionar(@RequestBody @Valid FormaPagamentoInput formaPagamentoInput) {
@@ -99,6 +103,7 @@ public class FormaPagamentoController {
             return formaPagamentoModelAssembler.toModel(cadastroFormaPagamento.adicionar(formaPagamentoInserir));
     }
 
+    @Override
     @PutMapping("/{formaPagamentoId}")
     public FormaPagamentoModel atualizar(@PathVariable Integer formaPagamentoId, @Valid @RequestBody FormaPagamentoInput formaPagamentoInput) {
         FormaPagamento formaPagamento =  cadastroFormaPagamento.buscarOuFalhar(formaPagamentoId);
@@ -106,6 +111,7 @@ public class FormaPagamentoController {
         return formaPagamentoModelAssembler.toModel(cadastroFormaPagamento.adicionar(formaPagamento));
     }
 
+    @Override
     @DeleteMapping("/{formaPagamentoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void excluir(@PathVariable Integer formaPagamentoId) {

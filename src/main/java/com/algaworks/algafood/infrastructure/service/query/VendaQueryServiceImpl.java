@@ -6,6 +6,7 @@ import com.algaworks.algafood.domain.model.dto.VendaDiaria;
 import com.algaworks.algafood.domain.service.VendaQueryService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Expression;
@@ -27,15 +28,7 @@ public class VendaQueryServiceImpl implements VendaQueryService {
         CriteriaQuery<VendaDiaria> criteriaQuery = criteriaBuilder.createQuery(VendaDiaria.class);
         Root<Pedido> root = criteriaQuery.from(Pedido.class);
 
-        var functionTz = criteriaBuilder.function(
-                "convert_tz",
-                Date.class,
-                root.get("dataCriacao"),
-                criteriaBuilder.literal("+00:00"),
-                criteriaBuilder.literal(timeOffSet)
-                );
-
-        var functionDate =  criteriaBuilder.function("date", Date.class, functionTz);
+        var functionDate = criteriaBuilder.function("DATE", Date.class, root.get("dataCriacao"));
 
         criteriaQuery.select(
                 criteriaBuilder.construct(VendaDiaria.class,

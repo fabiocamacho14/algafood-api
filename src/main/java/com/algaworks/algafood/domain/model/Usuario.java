@@ -6,7 +6,9 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Setter
@@ -39,5 +41,13 @@ public class Usuario {
             joinColumns = @JoinColumn(name = "usuario_id", foreignKey = @ForeignKey(name = "FK_USUARIO_GRUPO_USUARIO")),
             inverseJoinColumns = @JoinColumn(name = "grupo_id", foreignKey = @ForeignKey(name = "FK_USUARIO_GRUPO_GRUPO"))
     )
-    private List<Grupo> grupos = new ArrayList<>();
+    private Set<Grupo> grupos = new HashSet<>();
+
+    public boolean associarGrupo(Grupo grupo) {
+        return grupos.add(grupo);
+    }
+
+    public boolean desassociarGrupo(Grupo grupo) {
+        return grupos.remove(grupo);
+    }
 }

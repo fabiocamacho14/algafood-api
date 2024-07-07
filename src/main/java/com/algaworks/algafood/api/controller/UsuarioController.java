@@ -8,6 +8,7 @@ import com.algaworks.algafood.api.model.UsuarioModel;
 import com.algaworks.algafood.api.model.input.UsuarioInput;
 import com.algaworks.algafood.api.model.input.UsuarioPutInput;
 import com.algaworks.algafood.api.model.input.UsuarioPutSenhaInput;
+import com.algaworks.algafood.api.openapi.controller.UsuarioControllerOpenApi;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.repository.UsuarioRepository;
@@ -22,7 +23,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/usuarios")
-public class UsuarioController {
+public class UsuarioController implements UsuarioControllerOpenApi {
 
     @Autowired
     private CadastroUsuarioService cadastroUsuario;
@@ -42,16 +43,19 @@ public class UsuarioController {
     @Autowired
     private UsuarioPutSenhaInputDisassembler usuarioPutSenhaInputDisassembler;
 
+    @Override
     @GetMapping("/{usuarioId}")
     public UsuarioModel buscar(@PathVariable Integer usuarioId) {
         return usuarioModelAssembler.toModel(cadastroUsuario.buscarOuFalhar(usuarioId));
     }
 
+    @Override
     @GetMapping
     public Collection<UsuarioModel> listar() {
         return usuarioModelAssembler.toCollectionList(usuarioRepository.findAll());
     }
 
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UsuarioModel adicionar(@RequestBody @Valid UsuarioInput usuarioInput) {
@@ -59,12 +63,14 @@ public class UsuarioController {
         return usuarioModelAssembler.toModel(cadastroUsuario.adicionar(usuarioInserir));
     }
 
+    @Override
     @DeleteMapping("/{usuarioId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void excluir(@PathVariable Integer usuarioId) {
         cadastroUsuario.remover(usuarioId);
     }
 
+    @Override
     @PutMapping("/{usuarioId}")
     public UsuarioModel atualizar(@PathVariable Integer usuarioId, @RequestBody @Valid UsuarioPutInput usuarioPutInput) {
         Usuario usuarioAtualizar = cadastroUsuario.buscarOuFalhar(usuarioId);
@@ -73,6 +79,7 @@ public class UsuarioController {
         return usuarioModelAssembler.toModel(cadastroUsuario.adicionar(usuarioAtualizar));
     }
 
+    @Override
     @PutMapping("{usuarioId}/senha")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void atualizarSenha(@PathVariable Integer usuarioId, @RequestBody @Valid UsuarioPutSenhaInput usuarioPutSenhaInput) {

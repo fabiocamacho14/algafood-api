@@ -4,7 +4,6 @@ import com.algaworks.algafood.api.assembler.RestauranteModelAssembler;
 import com.algaworks.algafood.api.assembler.RestauranteInputDisassembler;
 import com.algaworks.algafood.api.model.RestauranteModel;
 import com.algaworks.algafood.api.model.input.RestauranteInput;
-import com.algaworks.algafood.api.model.view.RestauranteView;
 import com.algaworks.algafood.domain.exception.CidadeNaoEncontradoException;
 import com.algaworks.algafood.domain.exception.CozinhaNaoEncontradoException;
 import com.algaworks.algafood.domain.exception.NegocioException;
@@ -12,13 +11,12 @@ import com.algaworks.algafood.domain.exception.RestauranteNaoEncontradoException
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
-import com.fasterxml.jackson.annotation.JsonView;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +24,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/restaurantes")
 @CrossOrigin
-public class RestauranteController {
+@Tag(name = "Controlador de restaurantes", description = "Todos os controladores relativos a restaurantes cadastrados")
+public class RestauranteController implements com.algaworks.algafood.api.openapi.controller.RestauranteControllerOpenApi {
 
     @Autowired
     private RestauranteRepository restauranteRepository;
@@ -61,6 +60,8 @@ public class RestauranteController {
 //        return restaurantesWrapper;
 //    }
 
+    @Override
+    @Operation(summary = "Lista todos os restaurantes")
     @GetMapping
     public List<RestauranteModel> listar(){
         return restauranteModelAssembler.toCollectionModel(restauranteRepository.findAll());
@@ -78,16 +79,21 @@ public class RestauranteController {
 //        return listar();
 //    }
 
+    @Override
+    @Operation(summary = "Busca um restaurante" )
     @GetMapping("/{restauranteId}")
-    public RestauranteModel buscar(@PathVariable Integer restauranteId) {
+    public RestauranteModel buscar(@Parameter(description = "Id do restaurante") @PathVariable Integer restauranteId) {
         Restaurante restaurante = cadastroRestaurante.buscarOuFalhar(restauranteId);
 
         return restauranteModelAssembler.toModel(restaurante);
     }
 
+    @Override
+    @Operation(summary = "Adiciona um restaurante")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RestauranteModel adicionar(@RequestBody @Valid RestauranteInput restauranteInput) {
+    public RestauranteModel adicionar(@Parameter(name = "corpo", description = "Representação de um novo restaurante")
+                                      @RequestBody @Valid RestauranteInput restauranteInput) {
         try {
             Restaurante restaurante = restauranteModelDisassembler.toDomainObject(restauranteInput);
             return restauranteModelAssembler.toModel(cadastroRestaurante.adicionar(restaurante));
@@ -97,6 +103,8 @@ public class RestauranteController {
         }
     }
 
+    @Override
+    @Operation(summary = "Atualiza um restaurante")
     @PutMapping("/{restauranteId}")
     public RestauranteModel atualizar(@PathVariable Integer restauranteId, @Valid @RequestBody RestauranteInput restauranteInput) {
 //        Restaurante restaurante = restauranteModelDisassembler.toDomainObject(restauranteInput);
@@ -116,6 +124,8 @@ public class RestauranteController {
         }
     }
 
+    @Override
+    @Operation(summary = "Remove um restaurante")
     @DeleteMapping("/{restauranteId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Integer restauranteId) {
@@ -173,36 +183,42 @@ public class RestauranteController {
 
 //    PUT /restaurantes/{id}/ativo
 //    DELETE /restaurantes/{id}/ativo
+    @Override
     @PutMapping("{restauranteId}/ativo")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void ativar(@PathVariable Integer restauranteId) {
         cadastroRestaurante.ativar(restauranteId);
     }
 
+    @Override
     @DeleteMapping("{restauranteId}/ativo")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void inativar(@PathVariable Integer restauranteId) {
         cadastroRestaurante.inativar(restauranteId);
     }
 
+    @Override
     @PutMapping("/{restauranteId}/abertura")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void abrir(@PathVariable Integer restauranteId) {
         cadastroRestaurante.abrir(restauranteId);
     }
 
+    @Override
     @PutMapping("{restauranteId}/fechamento")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void fechar(@PathVariable Integer restauranteId) {
         cadastroRestaurante.fechar(restauranteId);
     }
 
+    @Override
     @PutMapping("/ativacoes")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void ativarMultiplos(@RequestBody List<Integer> restaurantesIds) {
         cadastroRestaurante.ativar(restaurantesIds);
     }
 
+    @Override
     @DeleteMapping("/ativacoes")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void inativarMultiplos(@RequestBody List<Integer> restaurantesIds) {

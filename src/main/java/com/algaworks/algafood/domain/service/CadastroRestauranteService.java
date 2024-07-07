@@ -106,7 +106,11 @@ public class CadastroRestauranteService {
 //        formaPagamentos.remove(formaPagamento);
 //        restaurante.setFormasPagamento(formaPagamentos);
 
-        restaurante.removerFormaPagamento(formaPagamento);
+        //restaurante.removerFormaPagamento(formaPagamento);
+
+        if (!restaurante.removerFormaPagamento(formaPagamento)) {
+            throw new NegocioException("Forma de pagamento especificada não está associada ao restaurante");
+        }
     }
 
     @Transactional

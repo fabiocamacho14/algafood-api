@@ -13,12 +13,11 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
 @RequestMapping("/restaurantes/{restauranteId}/produtos")
-public class RestauranteProdutoController {
+public class RestauranteProdutoController implements com.algaworks.algafood.api.openapi.controller.RestauranteProdutoControllerOpenApi {
 
     @Autowired
     private CadastroRestauranteService cadastroRestaurante;
@@ -35,6 +34,7 @@ public class RestauranteProdutoController {
     @Autowired
     private ProdutoRepository produtoRepository;
 
+    @Override
     @GetMapping
     public List<ProdutoModel> listar(@PathVariable Integer restauranteId, @RequestParam(required = false) boolean incluirInativos) {
         Restaurante restaurante = cadastroRestaurante.buscarOuFalhar(restauranteId);
@@ -47,11 +47,13 @@ public class RestauranteProdutoController {
 //        return produtoModelAssembler.toCollectionModel(produtoRepository.findByPrecoBetween(BigDecimal.valueOf(12.0), BigDecimal.valueOf(20.0)));
     }
 
+    @Override
     @GetMapping("/{produtoId}")
     public ProdutoModel buscar(@PathVariable Integer restauranteId, @PathVariable Integer produtoId) {
         return produtoModelAssembler.toModel(cadastroProduto.buscarProdutoEmRestauranteEspecifico(restauranteId, produtoId));
     }
 
+    @Override
     @PostMapping
     public ProdutoModel adicionar(@RequestBody @Valid ProdutoInput produtoInput, @PathVariable Integer restauranteId) {
         Produto produto = produtoInputDisassembler.toDomainObject(produtoInput);
@@ -64,6 +66,7 @@ public class RestauranteProdutoController {
 //        cadastroProduto.remover(produtoId, restauranteId);
 //    }
 
+    @Override
     @PutMapping("/{produtoId}")
     public ProdutoModel atualizar(@RequestBody @Valid ProdutoInput produtoInput, @PathVariable Integer restauranteId, @PathVariable Integer produtoId) {
         cadastroRestaurante.buscarOuFalhar(restauranteId);
