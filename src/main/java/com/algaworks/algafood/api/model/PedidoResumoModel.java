@@ -1,17 +1,22 @@
 package com.algaworks.algafood.api.model;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.hateoas.Links;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
 
+@Relation(collectionRelation = "pedidos")
 @Getter
 @Setter
 @JsonFilter("pedidoFilter")
-public class PedidoResumoModel {
+public class PedidoResumoModel extends RepresentationModel<PedidoResumoModel> {
 
     private String codigo;
     private BigDecimal subtotal;
@@ -21,4 +26,7 @@ public class PedidoResumoModel {
     private OffsetDateTime dataCriacao;
     private RestauranteResumoModel restaurante;
     private UsuarioModel cliente;
+
+    @Schema(hidden = true)
+    private Links _links;
 }

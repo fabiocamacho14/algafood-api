@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import jakarta.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
@@ -40,16 +41,11 @@ public class PedidoController implements PedidoControllerOpenApi {
     @Autowired
     private PedidoInputDisassembler pedidoInputDisassembler;
 
-//    @GetMapping
-//    public List<PedidoResumoModel> listar() {
-//        return pedidoResumoModelAssembler.toCollectionModel(pedidoRepository.findAll());
-//    }
-
     @Override
     @GetMapping
     public MappingJacksonValue listar(@RequestParam(required = false) String campos) {
         List<Pedido> pedidos = pedidoRepository.findAll();
-        List<PedidoResumoModel> pedidosModel = pedidoResumoModelAssembler.toCollectionModel(pedidos);
+        CollectionModel<PedidoResumoModel> pedidosModel = pedidoResumoModelAssembler.toCollectionModel(pedidos);
 
         MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(pedidosModel);
 

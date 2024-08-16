@@ -1,25 +1,46 @@
 package com.algaworks.algafood.api.assembler;
 
+import com.algaworks.algafood.api.AlgaLinks;
+import com.algaworks.algafood.api.controller.UsuarioController;
+import com.algaworks.algafood.api.controller.UsuarioGrupoController;
 import com.algaworks.algafood.api.model.UsuarioModel;
 import com.algaworks.algafood.domain.model.Usuario;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.List;
-
 @Component
-public class UsuarioModelAssembler {
+public class UsuarioModelAssembler extends RepresentationModelAssemblerSupport<Usuario, UsuarioModel> {
 
     @Autowired
     private ModelMapper modelMapper;
 
-    public UsuarioModel toModel(Usuario usuario) {
-        return modelMapper.map(usuario, UsuarioModel.class);
+    @Autowired
+    private AlgaLinks algaLinks;
+
+    public UsuarioModelAssembler() {
+        super(UsuarioController.class, UsuarioModel.class);
     }
 
-    public Collection<UsuarioModel> toCollectionList(Collection<Usuario> usuarios) {
-        return usuarios.stream().map(this::toModel).toList();
+    @Override
+    public UsuarioModel toModel(Usuario usuario) {
+        UsuarioModel usuarioModel = createModelWithId(usuario.getId(), usuario);
+        modelMapper.map(usuario, usuarioModel);
+
+        usuarioModel.add(algaLinks.linkToUsuarios());
+
+        usuarioModel.add(algaLinks.linkToUsuariosGrupos(usuario.getId()));
+
+        return usuarioModel;
+    }
+
+    @Override
+    public CollectionModel<UsuarioModel> toCollectionModel(Iterable<? extends Usuario> entities) {
+        return super.toCollectionModel(entities)
+                .add(algaLinks.linkToUsuariosCollection());
     }
 }

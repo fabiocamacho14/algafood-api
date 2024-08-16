@@ -15,11 +15,9 @@ import com.algaworks.algafood.domain.repository.UsuarioRepository;
 import com.algaworks.algafood.domain.service.CadastroUsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Collection;
-import java.util.List;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -51,8 +49,8 @@ public class UsuarioController implements UsuarioControllerOpenApi {
 
     @Override
     @GetMapping
-    public Collection<UsuarioModel> listar() {
-        return usuarioModelAssembler.toCollectionList(usuarioRepository.findAll());
+    public CollectionModel<UsuarioModel> listar() {
+        return usuarioModelAssembler.toCollectionModel(usuarioRepository.findAll());
     }
 
     @Override

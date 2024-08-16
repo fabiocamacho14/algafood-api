@@ -3,14 +3,18 @@ package com.algaworks.algafood.api.model;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.hateoas.Links;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
 
+@Relation(collectionRelation = "pedidos")
 @Getter
 @Setter
-public class PedidoModel {
+public class PedidoModel extends RepresentationModel<PedidoModel> {
 
     @Schema(description = "Código do pedido", example = "20e58bc5-3675-11ef-b0a5-025072131a20")
     private String codigo;
@@ -44,4 +48,7 @@ public class PedidoModel {
     private FormaPagamentoModel formaPagamento;
     private EnderecoModel endereco;
     private List<ItemPedidoModel> itens;
+
+    @Schema(hidden = true)
+    private Links _links;
 }

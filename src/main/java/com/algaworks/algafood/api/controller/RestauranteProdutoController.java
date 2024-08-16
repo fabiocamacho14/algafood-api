@@ -4,6 +4,7 @@ import com.algaworks.algafood.api.assembler.ProdutoInputDisassembler;
 import com.algaworks.algafood.api.assembler.ProdutoModelAssembler;
 import com.algaworks.algafood.api.model.ProdutoModel;
 import com.algaworks.algafood.api.model.input.ProdutoInput;
+import com.algaworks.algafood.api.openapi.controller.RestauranteProdutoControllerOpenApi;
 import com.algaworks.algafood.domain.model.Produto;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.ProdutoRepository;
@@ -11,13 +12,12 @@ import com.algaworks.algafood.domain.service.CadastroProdutoService;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/restaurantes/{restauranteId}/produtos")
-public class RestauranteProdutoController implements com.algaworks.algafood.api.openapi.controller.RestauranteProdutoControllerOpenApi {
+public class RestauranteProdutoController implements RestauranteProdutoControllerOpenApi {
 
     @Autowired
     private CadastroRestauranteService cadastroRestaurante;
@@ -36,8 +36,14 @@ public class RestauranteProdutoController implements com.algaworks.algafood.api.
 
     @Override
     @GetMapping
-    public List<ProdutoModel> listar(@PathVariable Integer restauranteId, @RequestParam(required = false) boolean incluirInativos) {
+    public CollectionModel<ProdutoModel> listar(@PathVariable Integer restauranteId,
+                                                @RequestParam(required = false) Boolean incluirInativos) {
         Restaurante restaurante = cadastroRestaurante.buscarOuFalhar(restauranteId);
+
+        if (incluirInativos == null) {
+           incluirInativos = Boolean.FALSE;
+        }
+
         if (incluirInativos) {
             return produtoModelAssembler.toCollectionModel(restaurante.getProdutos());
 

@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@Tag(name = "Controlador de estatísticas", description = "Todos os controladores referentes a estatísticas de vendas")
+@Tag(name = "Controlador de estatísticas", description = "Todos os controladores referentes a estatísticas de vendas " +
+        "resgistradas no banco de dados do sistema")
 public interface EstatisticasControllerOpenApi {
 
     @Operation(summary = "Consultar vendas diárias", description = "Lista todas as vendas de um dia específico",

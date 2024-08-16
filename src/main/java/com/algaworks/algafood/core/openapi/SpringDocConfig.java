@@ -29,14 +29,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Configuration
 public class SpringDocConfig implements WebMvcConfigurer {
 
-//    @Bean
-//    public GroupedOpenApi apiDocket() {
-//        return GroupedOpenApi.builder()
-//                .group("springshop-public")
-//                .pathsToMatch("/public/**")
-//                .build();
-//    }
-
     @Bean
     public OpenAPI springAlgafoodOpenApi() {
         return new OpenAPI()
@@ -50,13 +42,18 @@ public class SpringDocConfig implements WebMvcConfigurer {
     public OpenApiCustomizer customerGlobalHeaderOpenApiCustomizer() {
         ResolvedSchema resolvedSchema = ModelConverters.getInstance()
                 .resolveAsResolvedSchema(new AnnotatedType(Problem.class));
+
         SpringDocUtils.getConfig()
                 .replaceWithClass(Pageable.class, PageableModelOpenApi.class)
                 .replaceWithClass(TypeResolver.resolveRawClass(Page.class, CozinhaModel.class), CozinhasModelOpenApi.class);
 
         return openApi -> {
-            openApi.getPaths().values().forEach(pathItem -> pathItem.readOperations()
-                    .forEach(operation -> addErrorToApi(operation, openApi.getComponents())));
+            openApi.getPaths().values().forEach(
+                    pathItem -> pathItem.readOperations()
+                    .forEach(operation -> {
+                        addErrorToApi(operation, openApi.getComponents());
+                    })
+            );
             openApi.schema(resolvedSchema.schema.getName(), resolvedSchema.schema);
         };
     }

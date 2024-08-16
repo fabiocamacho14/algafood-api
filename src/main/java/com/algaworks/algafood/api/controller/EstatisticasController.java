@@ -5,7 +5,6 @@ import com.algaworks.algafood.domain.filter.VendaDiariaFilter;
 import com.algaworks.algafood.domain.model.dto.VendaDiaria;
 import com.algaworks.algafood.domain.service.VendaQueryService;
 import com.algaworks.algafood.domain.service.VendaReportService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -19,8 +18,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/estatisticas", produces = MediaType.APPLICATION_JSON_VALUE)
-@Tag(name = "Controlador de estatísticas", description = "Todos os controles relativos a estatísticas de vendas " +
-        "registradas no banco de dados do sistema.")
 public class EstatisticasController implements EstatisticasControllerOpenApi {
 
     @Autowired

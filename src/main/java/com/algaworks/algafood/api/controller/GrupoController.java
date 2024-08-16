@@ -10,11 +10,10 @@ import com.algaworks.algafood.domain.repository.GrupoRepository;
 import com.algaworks.algafood.domain.service.CadastroGrupoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Set;
 
 @RestController
 @RequestMapping(value = "/grupos", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -40,13 +39,14 @@ public class GrupoController implements GrupoControllerOpenApi {
 
     @Override
     @GetMapping
-    public Set<GrupoModel> listar() {
-        return (Set<GrupoModel>) grupoModelAssembler.toCollectionModel(grupoRepository.findAll());
+    public CollectionModel<GrupoModel> listar() {
+        return grupoModelAssembler.toCollectionModel(grupoRepository.findAll());
     }
 
     @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @io.swagger.v3.oas.annotations.parameters.RequestBody
     public GrupoModel adicionar(@RequestBody @Valid GrupoInput grupoInput) {
         Grupo grupoInsercao = grupoInputDisassembler.toDomainObject(grupoInput);
         return grupoModelAssembler.toModel(cadastroGrupo.adicionar(grupoInsercao));

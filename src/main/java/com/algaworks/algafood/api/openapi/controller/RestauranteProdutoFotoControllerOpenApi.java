@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
+@Tag(name = "Controlador de Fotos de produtos", description = "Controlador responsável pelo gerenciamento de fotos de" +
+        " um determinado produto")
 public interface RestauranteProdutoFotoControllerOpenApi {
 
     @Operation(summary = "Atualiza uma foto de um produto de um restaurante", description = "Atualiza uma foto de um " +

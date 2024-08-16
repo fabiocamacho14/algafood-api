@@ -166,7 +166,7 @@ insert into pedido (endereco_cidade_id,
                             'Nada',
                             'Rua Visconde da Silva',
                             'CRIADO',
-                            '107a864d-6710-11ee-bd22-025072131a20'
+                            '5b7117b5-cfa7-45bd-950d-101536b528a7'
                            );
 
 insert into pedido (endereco_cidade_id,
@@ -203,7 +203,7 @@ values (
            'Uma bela de uma observação',
            'Rua Dona Marcia',
            'CONFIRMADO',
-           '107a967d-6710-11ee-bd22-025072131a20'
+           '3ae8a329-d04f-42a7-9c40-a2807e7c8a7e'
        );
 
 
@@ -211,3 +211,11 @@ insert into item_pedido (pedido_id, preco_total, preco_unitario, produto_id, qua
 values (1, 50.0, 12.25, 2, 3, 'Observado');
 insert into item_pedido (pedido_id, preco_total, preco_unitario, produto_id, quantidade, observacao)
 values (1, 30.0, 2.25, 1, 30, 'Mal Observado');
+
+insert into usuario_grupo(usuario_id, grupo_id ) values (1, 1);
+insert into usuario_grupo(usuario_id, grupo_id ) values (1, 2);
+insert into usuario_grupo(usuario_id, grupo_id ) values (1, 3);
+insert into usuario_grupo(usuario_id, grupo_id ) values (2, 1);
+insert into usuario_grupo(usuario_id, grupo_id ) values (2, 2);
+insert into usuario_grupo(usuario_id, grupo_id ) values (3, 1);
+
