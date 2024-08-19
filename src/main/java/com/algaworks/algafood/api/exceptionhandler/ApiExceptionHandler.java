@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.exc.IgnoredPropertyException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -41,6 +43,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Autowired
     private MessageSource messageSource;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApiExceptionHandler.class);
 
     @Override
     protected ResponseEntity<Object> handleHttpMediaTypeNotAcceptable(HttpMediaTypeNotAcceptableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
@@ -156,15 +160,15 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, problem, new HttpHeaders(), HttpStatus.CONFLICT, request);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleExceptionQualquer(Exception ex, WebRequest request) {
-
-        String detail = MSG_ERRO_SISTEMA;
-        ProblemType problemType = ProblemType.ERRO_DE_SISTEMA;
-        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-        Problem problem = createProblemBuilder(status, problemType, detail, LocalDateTime.now()).build();
-        return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
-    }
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<?> handleExceptionQualquer(Exception ex, WebRequest request) {
+//
+//        String detail = MSG_ERRO_SISTEMA;
+//        ProblemType problemType = ProblemType.ERRO_DE_SISTEMA;
+//        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+//        Problem problem = createProblemBuilder(status, problemType, detail, LocalDateTime.now()).build();
+//        return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+//    }
 
     @Override
     protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
@@ -181,6 +185,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     private ResponseEntity<Object> handleValidacaoException(ValidacaoException ex, WebRequest request) {
 //        return handleMethodArgumentNotValid(ex, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
         return handleExceptionInternal(ex, getProblem(ex.getBindingResult()), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Object> handleAnyException(RuntimeException ex, WebRequest request) {
+        LOGGER.info("Funcionou!!!");
+
+        return handleExceptionInternal(ex, ResponseEntity.noContent(), new HttpHeaders(), HttpStatus.BAD_REQUEST,
+                request);
     }
 
     @Override
